@@ -1,0 +1,761 @@
+\chapter{たぶんわかる{\LaTeX}の使い方}
+読者の方々が文書を作成するとき，使うのはおそらくMicrosoft社のWordだろうと思う．
+Wordは使いやすく優れたソフトウェアである反面，高価であり，
+また数式入力の性能にはいささか不満が残る．
+特に理系にとってはこの点は大きな痛手となる．
+数式入力以外にもWordの欠点は多い．
+例えば，Wordは入力画面がそのまま出力になるため，
+出来上がりがどんな風になるかがリアルタイムでわかる．
+ところが，これはWordの短所でもある．ユーザーに見た目を整えろと言っていることになるからだ．
+最初のうちはいいのだが，後でレイアウトを変更したいとかそういうことがあったときにちょっと面倒なことになる．
+
+対して{\LaTeX}は入力画面がそのまま出力になるわけではなく，
+入力するのは文章の論理的構成方法，すなわちどんな文章を書きたいかを入力する．
+そしてそれを{\LaTeX}が受け取り，文章を作成するのだ．
+慣れるまではなかなか大変だが，慣れてしまえばこっちの方が文章を作るのは楽だったりする．
+他にも扱うのがテキストファイルであるためにデータのやり取りが楽だったり，
+独自の命令を作ることができたりといろいろと長所はあるのだが，
+それはこれから見てもらうことにしよう．
+
+このマニュアルを読むときの注意として，
+私はあくまでしがない1ユーザーであり，{\LaTeX}に関してまともに理解しているわけではない．
+とりあえずユーザーになるためのマニュアルだと思って読んでほしい．
+とりあえず一読したらもう二度と読まないくらいでいいと思う．
+
+
+\section{{\LaTeX}とは何か}\index[widx]{LaTeX@LaTeX}
+{\LaTeX}は``ラテフ''もしくは``ラテック''と読む．ラテフと読むのが主流である．
+{\LaTeX}のロゴはこんな感じのカッチョイイデザインで書く．
+もちろんどんな環境でもこんな出力ができるわけではないので
+``LaTeX''というようにaとeを小文字にして書くのが普通である．
+
+さて，{\LaTeX}はよくWordと比較される．
+しかし，{\LaTeX}とWordはまったく違うソフトウェアであるといってもいい．
+Wordは文書作成ソフトであり，{\LaTeX}は文書処理システムである．
+つまり，Wordは文書を作るためのソフトであり，
+{\LaTeX}は文書を加工していい感じの出力とするためのシステムなのである．
+よく{\TeX}という言葉も聞くが，これも{\LaTeX}とは別物である．
+\index[widx]{TeX@TeX}
+{\TeX}は，Knuth\index[nidx]{Knuth@Knuth(クヌーク)}
+という人物によって開発された，フリー，すなわち，無料の``組版システム''である． 
+つまり，活版印刷のような``文字や図版などの文章を構成する要素を紙面に配置する''という作業を
+コンピュータ上で行うためのシステムなのである．
+\footnote{つまり，本来{\TeX}で文章を書くためにはテキストエディタでソースを作成し，
+それを{\TeX}に処理してもらい(コンパイルと呼ぶ)，
+さらにPDFに変換しなくてはならない．
+だが，最近ではその作業はほとんど自動で行ってくれることが多い．}
+そして，{\LaTeX}とは，{\TeX}の上に構築されたフリーの文書処理システムである．
+Lamport\index[nidx]{Lamport@Lamport(ランポート)}という人物によって開発されたものである．{\TeX}は
+``\ruby{組版}{くみはん}のために開発された言語''であるため，そのままでは使いにくい．
+そこで，一般的な文書作成に便利な拡張がなされているのが{\LaTeX}というわけだ．
+現在``{\TeX}''といえばほとんど``{\LaTeX}''のことである．
+
+{\LaTeX}は難しいと思われ，ともすれば避けられることも多い．しかし，習得するのはさほど難しくはなく，
+細かいことを考えなければ数時間で習得することも可能なはずだ．
+その習得難易度の低さに対して仕上がりの完成度は圧巻のものであると言えよう．
+この文章も{\LaTeX}で作成している．
+この本とちょっと古い専門書とを見比べてみれば(見た目の)読みやすさは圧倒的だと思う．
+
+なお，このマニュアルは{\LaTeX}の基本的，初歩的な使い方を学ぶことを趣旨としているため，
+細かい話は一切書いていない．
+気になる人は``(やりたいこと)  LaTeX''などと検索をかけてもらえばすぐに見つかるはずだ．
+
+\subsection{\TeX Liveに関して}\index[widx]{TeXLiVe@TeX Live}
+{\LaTeX}に関して調べていると，よく``{TeX Live}''という言葉が出てくる．これに関して少し補足しておこう．
+{\LaTeX}は単一のアプリケーションではない．
+{\LaTeX}は膨大な数のファイル，マクロ，フォント，その他のユーティリティの集合体である．
+{\LaTeX}には多数のバリエーションがあるのだが，その個々のバリエーションごとのセットを個々の開発者が
+独立に公開し，それをユーザーが利用するのはあまりにも非効率である．
+そこで，包括的な{\LaTeX}環境を提供するために生まれ，
+そして現在世界標準になっているのが{TeX Live}という配布形式なのである．
+というわけで，自分のPCに{\LaTeX}をインストールしたいがやり方がよくわからないという人は，
+とりあえず{TeX Live}に従ってインストールしておけばいい．
+やり方は
+``TeX Live インストール''と検索をかければ有用な情報はいくらでも出てくるだろう．
+いちいちここに書くまでもないと思う．
+
+\section{{\LaTeX}ソースの構造}
+{\LaTeX}がどんなものかが理解できたところで，実際に{\LaTeX}のソースがどんなものか見てみよう．
+実際のソースをここに挙げておく．
+\input{LaTeX/bunsyorei.tex}
+
+このソースファイルをコンパイルしてみると，次のような出力が得られる．
+\footnote{実際にソースをコピペしてコンパイルしてみると，
+ここに挙げたものとは少し出力が違うはずである．
+これは，私がこの文章を本書の本文の一部として取り込んだからである．
+パッと見てわかるのは式番号の仕様だろうか．}
+
+\begin{oframed}
+数列$\{ a_n \}$を，漸化式
+\begin{align} 
+ \begin{aligned}% 式番号付きの別行立ての数式環境のスタート
+  a_1 & = 1 \\ % \\は改行を表す
+  a _ {n+1} & = \sqrt{ a_n + 6} % \sqrtは平方根
+ \end{aligned}
+\end{align} % 数式環境終わり
+によって帰納的に定義する．
+
+% 段落が変わるのよ %
+
+このとき，
+\begin{align} 
+\forall \varepsilon >0 \, \exists N \in \mathbb{N} \, 
+\forall n \in \mathbb{N} 
+( n \geq N \rightarrow \lvert a_n -3 \rvert < \varepsilon )
+\end{align} 
+が成り立つので，この数列$\{ a_n \}$は3に収束する，つまり，
+\begin{align}
+\lim_{n \to \infty} a_n = 3
+\end{align}
+となる．
+\end{oframed}
+
+以下，このソースをもとにドキュメントクラスとオプションについて解説する．
+\subsection{ドキュメントクラスとオプション}
+さて，ソースを見ると，まず最初に
+\begin{verbatim}
+\documentclass[a4paper,12pt]{jsarticle}
+\end{verbatim}
+という文が書かれているはずである．
+(バックスラッシュ「\verb|\|」と円マーク「\texttt{{\yen}}」はまったく同じと思っていただいて差し支えない)
+\footnote{
+{\LaTeX}において何か命令を書きたいとき，
+\verb|\(命令の名前)|
+というように記述する．}
+この文は，\emph{ドキュメントクラス}\index[widx]{どきゅめんとくらす@ドキュメントクラス}と呼ばれる文章の形式を決め，
+さらにオプションによって文章の大まかな構成を決定する文である．
+ドキュメントクラスとオプションは，次のような形式で記述される．
+\begin{verbatim}
+\documentclass[オプション]{ドキュメントクラス}
+\end{verbatim}
+この文章では，\verb|jsarticle|というドキュメントクラスと
+\verb|a4paper|，および\verb|12pt|という2つのオプションが採用されていることになる．
+\verb|jsarticle|というドキュメントクラスを採用したことにより，
+この文章はjapanese styleのarticle，
+すなわち日本語でのレポートや記事を構成するのに最適化された形式になるということである．
+また，\verb|12pt|というオプションを採用したことにより，この文章の文字は12ptの大きさで出力されることになる．
+\verb|a4paper|というオプションは，紙サイズをA4サイズにするというオプションである．
+普通はデフォルトがA4サイズのため，わざわざ入力する必要ない．
+A4から違うサイズにしたければそのサイズをオプションに書き込んでおけばよい．
+
+ドキュメントクラスとオプションの宣言は，ソースの一番最初に行われなければならない．
+さらに，オプションの宣言を省略して
+\begin{verbatim}
+\documentclass{ドキュメントクラス}
+\end{verbatim}
+と書くこともできるが，その場合はオプションに関してはすべてデフォルトのものが採用される．
+以下によく使うドキュメントクラスを書いておく．
+\renewcommand{\arraystretch}{1}
+\begin{table}[h]
+\centering
+\begin{tabularx}{11cm}{|C|C|L|}
+\hline
+書きたいもの & ドキュメントクラス & コメント \\ \hline
+論文やレポート(和文) & jsarticle & 普通はこれを使っておけばよい． \\ \hline
+本(和文) & jsbook & 本を書きたいならこれ．本書はjsbookで書いてます． \\ \hline
+論文やレポート(欧文) & article & 欧文ならこれらしい．詳しくは知らない． \\ \hline
+本(欧文) & book & 同上． \\ \hline
+論文やレポート(和文縦書き) & tarticle & 文章を縦書きに． \\ \hline
+本(和文縦書き) & tbook & 同上． \\ \hline
+\end{tabularx}
+\caption{よく使う(?)ドキュメントクラス}
+\label{tab:documentclass}
+\end{table}
+ 
+ここに書かれていないドキュメントクラスもあるが，普通は使わないだろうと思われるので省略させてもらった．
+普通に文章を書きたいのであれば，とりあえずjsarticleを使っておけばいい．
+それ以外のドキュメントクラスを使いたいということはおそらくないと思う．
+用途に合わせて適切にドキュメントクラスを使い分けるのがミソである．
+
+オプションに関しては最初のうちはほとんど使うことはないだろうから本書には書かない．
+気になるのであれば自分で調べてもらえばいいだろう．
+\subsection{プリアンブルとスタイルファイル}
+そういえば言い忘れたのだが，{\LaTeX}ソースの構造は，大きく分けて以下のようになっている．
+\begin{verbatim}
+\documentclass[オプション]{ドキュメントクラス}
+プリアンブル
+\begin{document}
+本文
+\end{document}
+\end{verbatim}
+それぞれの役割は
+\begin{enumerate}
+\item \verb|\documentclass|で文章のおおまかな体裁を決める．
+\item プリアンブルでパッケージの読み込みやページのレイアウト設定を行う．
+\item \verb|\begin{document}|から\verb|\end{document}|の間に本文が入る．
+\end{enumerate}
+というようになっている．
+どんなに長いソースであってもこのルールに従っている．
+ドキュメントクラスに関してはさっき説明した通りなので，
+ここではプリアンブルについて説明する．
+
+\verb|\documentclass{...}|から\verb|\begin{document}|までの部分を
+\emph{プリアンブル}\index[widx]{ぷりあんぶる@プリアンブル}という．
+プリアンブルでは，\verb|\documentclass|では行えない細かい設定や，
+パッケージと呼ばれる便利な機能の読み込みを行う．
+まずはパッケージについて説明することにする．
+
+{\LaTeX}は非常によくできており，デフォルトの設定でも十分美しい文章を書くことができる．
+しかし，もっといろいろなことをやりたいということもあるだろう．
+そういうときにパッケージと呼ばれるものを導入することで，
+{\LaTeX}の機能を拡張することができる．\index[widx]{ぱっけーじ@パッケージ}
+パッケージは自分で作ることもできるのだが，まぁめんどくさい．
+私のような末端のユーザーは世界中で開発・公開されているパッケージを使う．
+追加のパッケージはThe Comprehensive TeX Archive Network(CTAN)というサイトにたくさん存在し，
+そこで自由にダウンロードすることができる．
+他にもパッケージを配布しているところはたくさんあり，あくまでここは有名どころだと思ってくれればいい．
+だが，よく使う多くのパッケージはTeX Liveをセットアップしたときに一緒にインストールされている．
+だから我々が新しいパッケージをダウンロードする必要性はほとんどない．
+
+パッケージの機能はほとんどがスタイルファイル(***.sty)\index[widx]{すたいるふぁいる@スタイルファイル}
+という形で提供されている．
+その主要部分はテキストファイルであり，いろいろなコマンドの定義が書かれている．
+パッケージを使いたくなったら．プリアンブルに
+\begin{verbatim}
+\usepackage{***}
+\end{verbatim}
+と書けばよい．これを書き忘れると，多くの場合
+\begin{verbatim}
+! Undefined control sequence.
+\end{verbatim}
+と{\TeX}に文句を言われるので注意すること．なお，
+\begin{verbatim}
+! LaTeX Error: File `***.sty' not found.
+\end{verbatim}
+というエラーが出たら，\verb|\usepackage|コマンドで
+指定したパッケージが見つからなかったことを意味する．
+この場合，パッケージ名のつづりを間違えているか，
+そもそもパッケージがインストールされていないかのどちらかである．ほとんどは前者だが．
+\footnote{{\LaTeX}では大文字と小文字は別物として扱われる．打ち込むときは注意しよう．}
+
+さっき挙げたソースファイルでは，amsmathパッケージとamssymbパッケージという
+2つのパッケージが取り込まれている．
+この2つのパッケージは数式が絡むような文章を書くときにはほとんど必須になる．
+とりあえず頭の片隅にでも置いておいてほしい．
+
+パッケージはひとつの\verb|\usepackage|コマンドで同時に複数読み込むことができる．
+\begin{verbatim}
+\usepackage{***,---} % ***パッケージと---パッケージの読み込み
+\end{verbatim}
+というようにカンマで区切ってやればよい．
+ただし，やりすぎるとソースが汚くなるので別のパッケージは
+\begin{verbatim}
+\usepackage{***} % ***パッケージの読み込み
+\usepackage{---} % ---パッケージの読み込み
+\end{verbatim}
+というように複数行に分けて書くのが普通である．
+
+プリアンブルでできるのはパッケージの読み込みだけではない．
+余白の設定やヘッダーやフッターの編集などもここで行う．
+そして，もっとも便利なのが\emph{マクロ}\index[widx]{まくろ@マクロ}と呼ばれる新しい命令を作成できることである．
+``マクロを作る''といっても，それは単に新しい命令を作るだけである．
+自分オリジナルの命令を作ることで，ソースをきれいに，そして楽チンに作ることができる．
+
+例を示そう．ベクトル場の発散は，通常では
+\begin{align*}
+\mathrm{div} \, \bm{A}
+\end{align*}
+と出力するのに，普通にやれば
+\begin{verbatim}
+\begin{align*}
+\mathrm{div} \, \bm{A}
+\end{align*}
+\end{verbatim}
+と書かねばならない．(数式を出力する詳しい方法はあとで説明する)
+ここでプリアンブルに
+\begin{verbatim}
+\newcommand{\Div}{\mathrm{div} \, }
+\end{verbatim}
+と書いておけば，同じ出力を得るのに
+\begin{verbatim}
+\begin{align*}
+\Div \bm{A}
+\end{align*}
+\end{verbatim}
+と書くだけで済む．
+\footnote{\verb|\div|と命令を定義したいところだが，
+$\div$を出力する命令と同じなので衝突を避けている．}
+いくらかソースが見やすくなった気がする．気がするくらいだが．
+
+上の例のように，新しい命令を定義するときは，プリアンブルに
+\begin{verbatim}
+\newcommand{\命令の名前}{定義内容}
+\end{verbatim}
+と記述する．試しに本書のソースファイルのプリアンブルには
+\begin{verbatim}
+\newcommand{\selfintroduction}{私は高知工科大学環境理工学群3年の野口と申します。}
+\end{verbatim}
+と書いてある．この状況で本文に
+\begin{verbatim}
+\selfintroiduction
+\end{verbatim}
+と書けば，
+\begin{center}
+\selfintroduction
+\end{center}
+という出力が得られるというわけである．
+引数付きの命令や，既存の命令を書き換えることももちろんできる．
+そのやり方はここには書かないので自分で調べていただきたい．
+
+なお，先ほどパッケージというものについて学んだが，
+実はパッケージというのは上に書いたマクロをたくさん集めたものにすぎないのである．
+マクロが長大になったとき，いちいち毎回プリアンブルに書くのが
+めんどくさいのでスタイルファイルにまとめてあるというだけなのである．
+\subsection{本文中での改行や段落}
+いよいよ次は本文である．
+本文はプリアンブルのあとに
+\begin{verbatim}
+\begin{document}
+\end{verbatim}
+と記述することによってスタートする．本文が書き終わったら，ソースの最後に
+\begin{verbatim}
+\end{document}
+\end{verbatim}
+と記述することで本文が終了する．ここまで書けたらタイプセットを実行すれば出力が得られるはずである．
+本文の作成は各自思い思いにやってもらえればいいのだが，注意しておくことがある．
+それは，{\LaTeX}においては本文中での1回の改行は無視されるということである．
+例えば
+\begin{verbatim}
+\begin{document}
+本文中での
+1回だけの
+改行は
+無視して出力される．
+そう，このように．
+\end{document}
+\end{verbatim}
+と打ち込んでも
+\begin{framed}
+本文中での
+1回だけの
+改行は
+無視して出力される．
+そう，このように．
+\end{framed}
+というように出力される．
+改行をしたければ，
+\begin{verbatim}
+\begin{document}
+本文中での \\
+1回だけの \\
+改行は \\
+無視して出力される． \\
+そう，このように．
+\end{document}
+\end{verbatim}
+というように，改行したい場所「\verb|\\|」と入力すればよい．そうすると，
+\begin{framed}
+本文中での \\
+1回だけの \\
+改行は \\
+無視して出力される． \\
+そう，このように．
+\end{framed}
+というような出力が得られる．
+
+本文が英文の場合は1回だけの改行は半角スペースと解釈される．
+\begin{verbatim}
+\begin{document}
+Hello LaTeX
+In English sentence, a line break 
+converts a space.
+LaTeX export here.
+\end{document}
+\end{verbatim}
+と打ち込めば，
+\begin{framed}
+Hello LaTeX.
+In English sentence, a line break 
+converts a space.
+LaTeX export here.
+\end{framed}
+という出力になるのである．
+
+なお，1回だけの改行は無視されるが，2回，あるいはそれ以上の改行となると話は変わってくる．
+無視されるのではなく段落の更新と解釈されるのである．
+\begin{verbatim}
+\begin{document}
+本文での1回だけの
+改行は
+無視される． \\
+しかし，
+
+2度以上の改行は
+
+
+こんな風に段落の更新として出力されるのだ．
+\end{document}
+\end{verbatim}
+という入力からは
+\begin{oframed}
+本文での1回だけの改行は
+無視される． \\
+しかし，
+
+2度以上の改行は
+
+
+こんな風に段落の更新として出力されるのだ．
+\end{oframed}
+という出力が得られる．
+
+本文作成に関して気をつけるのはこのくらいであろうか．
+\subsection{{\LaTeX}における環境について}
+文章には，その論理構造以外に表現様式といえるものがある．
+例えば，箇条書きをしたり，引用文を用いる，中央に文章を揃える，
+などといったものである．
+{\LaTeX}では，このような表現様式を``環境''という形で提供している．
+\index[widx]{かんきょう@環境}
+環境の指定は
+\begin{verbatim}
+\begin{環境名}
+書きたい文章
+\end{環境名}
+\end{verbatim}
+という形式で記述される．
+環境を入れ子にすることもできる．
+\begin{verbatim}
+\begin{環境名1}
+ \begin{環境名2}
+  書きたい文章
+ \end{環境名2}
+\end{環境名1}
+\end{verbatim}
+というようにするのである．
+\footnote{環境名2のところで文頭を下げているが，これはソースを見やすくしたいがためのものであり，
+空白を入れなくても問題なく動作する．}
+環境に関しては，やりたいことを調べていくうちに自然とわかるようになるはずである．
+
+\section{数式の入力}
+さて，{\LaTeX}をやろうと思う動機のほとんどが数式の入った文章の作成だろうと思う．
+ここまでもったいぶって引っ張ってきたが，数式の入力は驚くほど簡単である．
+なお，数式が絡む文章を作成する場合，99.99999\%でamsmath.sty
+とamssymb.styが必要になるので
+プリアンブルに\verb|\usepackage{amsmath,amssymb}|と記述されていることを前提に話を進める．
+\subsection{数式入力の基本}
+まず，文章中に数式を入れる方法を述べる．``関数$f(x)$が...''というような文章である．
+文章中に数式を入れるには，\verb|日本語$数式$日本語|というように，数式を\verb|$|で挟めばよい．
+\begin{verbatim}
+閉区間$[ a, \, b ]$で定義され，その区間で連続であるような関数$f(x)$は，
+\end{verbatim}
+と入力した場合，
+\begin{oframed}
+閉区間$[ a, \, b ]$で定義され，その区間で連続であるような関数$f(x)$は，
+\end{oframed}
+という出力が得られるのである．
+\verb|$|を入れずに
+\begin{verbatim}
+閉区間[ a, \, b ]で定義され，その区間で連続であるような関数f(x)は，
+\end{verbatim}
+と入力してしまうと
+\begin{oframed}
+閉区間[ a, \, b ]で定義され，その区間で連続であるような関数f(x)は，
+\end{oframed}
+というように見苦しい出力になってしまうので気をつけること．
+使用しているコマンドによってはエラーが出ることもある．
+
+数式環境下においては半角スペースは何個入れても無視される．
+それ以外のところでは半角スペースは普通に半角スペースとして処理される．
+ただし，何個入れても半角スペース1個と解釈される．
+空白の出力方法は調べればいくらでも出てくるのでそちらを参照していただきたい．
+また，全角スペースは絶対に用いないようにすること．
+非常に有害である．
+
+次に，別行立てで数式を入力する方法を述べる．
+たくさん方法があるが，\verb|\[ 数式 \]|とするか，\texttt{align}環境を用いるのが一般的である．
+\begin{verbatim}
+数列$\{ a_n \}$が$\alpha$に収束するとは，
+\[
+\forall \varepsilon > 0 \, \exsits N \in \mathbb{N} 
+\, \forall n \in \mathbb{N} 
+( n \geq N \rightarrow \lvert a_n - \alpha \rvert )
+\]
+が成り立つことである．
+\end{verbatim}
+という入力に対しては
+\begin{oframed}
+数列$\{ a_n \}$が$\alpha$に収束するとは，
+\[
+\forall \varepsilon > 0 \, \exists N \in \mathbb{N} 
+\, \forall n \in \mathbb{N} 
+( n \geq N \rightarrow \lvert a_n - \alpha \rvert )
+\]
+が成り立つことである．
+\end{oframed}
+という出力が得られる．
+\footnote{散々打たれている\verb|\,|というコマンドは，やや狭い空白を表す．
+文章の見栄えをよくするために入れている．}
+これを\texttt{align}環境で書いてみると，
+\begin{verbatim}
+数列$\{ a_n \}$が$\alpha$に収束するとは，
+\begin{align}
+\forall \varepsilon > 0 \, \exists N \in \mathbb{N} 
+\, \forall n \in \mathbb{N} 
+( n \geq N \rightarrow \lvert a_n - \alpha \rvert )
+\end{align}
+が成り立つことである．
+\end{verbatim}
+と書けばよくて，出力は
+\begin{oframed}
+数列$\{ a_n \}$が$\alpha$に収束するとは，
+\begin{align}
+\forall \varepsilon > 0 \, \exists N \in \mathbb{N} 
+\, \forall n \in \mathbb{N} 
+( n \geq N \rightarrow \lvert a_n - \alpha \rvert )
+\end{align}
+が成り立つことである．
+\end{oframed}
+となる．\texttt{align}環境で数式を書いた場合，数式番号が自動で振られる．
+それが嫌ならば，\texttt{align}環境の代わりに\texttt{align*}環境を用いればよくて
+\begin{verbatim}
+\begin{align*}
+\forall \varepsilon > 0 \, \exists N \in \mathbb{N} 
+\, \forall n \in \mathbb{N} 
+( n \geq N \rightarrow \lvert a_n - \alpha \rvert )
+\end{align*}
+が成り立つことである．
+\end{verbatim}
+と書くと，出力は
+\begin{oframed}
+数列$\{ a_n \}$が$\alpha$に収束するとは，
+\begin{align*}
+\forall \varepsilon > 0 \, \exists N \in \mathbb{N} 
+\, \forall n \in \mathbb{N} 
+( n \geq N \rightarrow \lvert a_n - \alpha \rvert )
+\end{align*}
+が成り立つことである．
+\end{oframed}
+となる．\verb|\[ ... \]|と書いたときとまったく同じ出力である．
+
+数式を複数行表示したいときには普通の文と同じように\verb|\\|を改行したいところに入れる．
+しかしこれは\verb|\[ ... \]|ではできない．\texttt{align*}環境では
+\begin{verbatim}
+\begin{align*}
+1 + 2 + \cdots 100 
+& = \frac{1}{2} \cdot 100 \cdot ( 100 + 1 ) \\
+&= 5050
+\end{align*}
+\end{verbatim}
+と打ち込むと，
+\begin{oframed}
+\begin{align*}
+1 + 2 + \cdots + 100 
+& = \frac{1}{2} \cdot 100 \cdot ( 100 + 1 ) \\
+&= 5050
+\end{align*}
+\end{oframed}
+という出力が得られる．
+改行するときに\verb|&|を打ち込むと，その位置が改行するときに揃えて出力される．
+また，\texttt{align}環境では，
+\begin{oframed}
+\begin{align}
+1 + 2 + \cdots 100 
+& = \frac{1}{2} \cdot 100 \cdot ( 100 + 1 ) \\
+&= 5050
+\end{align}
+\end{oframed}
+というように，各行に独立して式番号が振られる．
+まとめて振りたい場合は\texttt{align}環境と\texttt{aligned}環境を用いて
+\begin{verbatim}
+\begin{align}
+ \begin{aligned}
+  1 + 2 + \cdots 100 
+  & = \frac{1}{2} \cdot 100 \cdot ( 100 + 1 ) \\
+  &= 5050
+ \end{aligned}
+\end{align}
+\end{verbatim}
+としてやればよい．このようにすると，出力は
+\begin{oframed}
+\begin{align}
+ \begin{aligned}
+  1 + 2 + \cdots 100 
+  & = \frac{1}{2} \cdot 100 \cdot ( 100 + 1 ) \\
+  &= 5050
+ \end{aligned}
+\end{align}
+\end{oframed}
+となる．ある特定の行だけに番号を振りたくない，というときは，
+\texttt{align}環境で\verb|\notag|というコマンドを使って，
+\begin{verbatim}
+\begin{align}
+1 + 2 + \cdots 100 
+& = \frac{1}{2} \cdot 100 \cdot ( 100 + 1 ) \notag \\
+&= 5050
+\end{align}
+\end{verbatim}
+としてやればよい．出力は
+\begin{oframed}
+\begin{align}
+1 + 2 + \cdots 100 
+& = \frac{1}{2} \cdot 100 \cdot ( 100 + 1 ) \notag \\
+&= 5050
+\end{align}
+\end{oframed}
+となる．だんだん慣れてきただろう．
+\subsubsection{数式の参照}
+数式を出したとき，その数式を本文中で参照したいということがある．式(2)より，とか式(2.1)を用いると，
+とかそんな具合である．このとき，数式番号をソースの段階で手打ちするのはスマートさに欠ける．
+ではスマートな方法とはなんなのか？ それを見ていこう．
+
+まず，数式番号を入れた数式を用意する．
+\begin{oframed}
+\begin{align}
+\forall x ( F(x) \to A ) \Longleftrightarrow \exists x F(x) \to A
+\label{eq:equivalence}
+\end{align}
+\end{oframed}
+この式について本文中で言及したいとする．
+それには，数式中で\verb|\label{なんか適当な名前}|と入れておく．具体的には
+\begin{verbatim}
+\begin{align}
+\forall x ( F(x) \to A ) \Longleftrightarrow 
+\exists x F(x) \to A 
+\label{eq:equivalence}
+\end{align}
+\end{verbatim}
+というようにしておくのである．\verb|\label|内に入れる名前は日本語でなければ(アルファベットなら)なんでもいいのだが，
+普通は混乱しないようにわかりやすい名前にしておくべきだろう．
+今回は``eq:''とつけることでこれが数式であることを強調し，同値を表すequivalenceという名前にしてみた．
+
+数式にラベルを貼り付けたらあとはそれを参照するだけである．
+参照したい部分に\verb|\ref{自分が貼り付けた名前}|と打ち込む．
+\begin{verbatim}
+この式(\ref{eq:equivalence})は以下のようにして証明することができる．
+\end{verbatim}
+と打ってみると，
+\begin{oframed}
+この式(\ref{eq:equivalence})は以下のようにして証明することができる．
+\end{oframed}
+となるのである．
+\footnote{数式番号を参照するのであれば，\verb|\eqref|というコマンドもある．}
+参照コマンドにはバリエーションがあって，
+\begin{verbatim}
+\pageref{eq:equivalence}ページにある式(\ref{eq:equivalence})を用いると，
+\end{verbatim}
+と打ってみると，
+\begin{oframed}
+\pageref{eq:equivalence}ページにある式(\ref{eq:equivalence})を用いると，
+\end{oframed}
+となる．\verb|\pageref|はラベルが貼ってあるところのページを参照するためのコマンドである．
+
+ラベルを張り付けて参照できるのは数式だけではない．表や図にもできる．
+\pageref{tab:documentclass}ページにある表\ref{tab:documentclass}のところには
+実はラベルが貼ってある．
+といっても出力だけを見る読者には伝わらないのだが．
+ただし，数式だろうが図だろうが表だろうがコマンドは共通で，
+\verb|\label|でラベルを貼って，\verb|\ref|で参照するのである．
+参考文献の場合は少しだけ勝手が異なるが，まぁ各自で調べてもらえばいいだろう．
+
+また，参照をするときに\verb|\label|の前に\verb|\ref|があってもよい．
+例えば，
+\begin{verbatim}
+以下に示す式(\ref{eq:negdis})と
+式(\ref{eq:negcon})は
+De Morganの法則と呼ばれている．
+\begin{align}
+\lnot ( A \lor B) \Longleftrightarrow \lnot A \land \lnot B 
+\label{eq:negdis} \\
+\lnot ( A \land B) \Longleftrightarrow \lor A \land \lnot B 
+\label{eq:negcon}
+\end{align}
+\end{verbatim}
+と打てば，
+\begin{oframed}
+以下に示す式(\ref{eq:negdis})と式(\ref{eq:negcon})はDe Morganの法則と呼ばれている．
+\index[nidx]{De Morgan@De Morgan(ド・モルガン)}
+\begin{align}
+\lnot ( A \lor B) \Longleftrightarrow \lnot A \land \lnot B 
+\label{eq:negdis} \\
+\lnot ( A \land B) \Longleftrightarrow \lnot A \lor \lnot B 
+\label{eq:negcon}
+\end{align}
+\end{oframed}
+という出力が得られる．
+
+参照をする際にはひとつ注意すべき点があって，
+それは諸般の事情でコンパイルを2回しなければならないということだ．
+1回目のコンパイルでは(??)となり，2回目のコンパイルで正しく出力される．
+ただし，参照する名前が間違っていたりすると依然(??)のままである．
+そのときはソースをチェックしていただきたい．
+
+このあたりまで読み通せれば一応{\LaTeX}の文章を書くことができるはずだ．
+試しに何か書いてみるといいだろう．
+
+\section{ギリシャ文字の入力}
+$\psi (x, \, t) = A \sin (kx-\omega t)$というように，
+数式中ではよくギリシャ文字が使われる．
+ここでは，ギリシャ文字の一覧を付録としておくこともかねてその出力方法を書いておく．
+
+ギリシャ文字の入力は簡単である．
+\.数\.式\.中\.に特定のコマンドを置くだけでよい．
+例えば本文中に
+\begin{verbatim}
+任意の$\alpha , \, \beta \in \mathbb{C}$に対し，
+$e^{ \alpha + \beta } = e^ \alpha e^  \beta $が成り立つ．
+\end{verbatim}
+と打てば，
+\begin{oframed}
+任意の$\alpha , \, \beta \in \mathbb{C}$に対し，
+$e^{ \alpha + \beta } = e^ \alpha e^  \beta $が成り立つ．
+\end{oframed}
+という出力が得られる．
+使い方がわかってしまえば，
+あとは個々のギリシャ文字のコマンドを記憶しておくだけである．
+次ページにギリシャ文字の一覧とそのコマンドを載せておこう．
+
+なお，ギリシャ文字の大文字には普通のアルファベットと被っているものがある．
+なぜかというのは置いておいて，アルファベットと被っていないものには
+専用のコマンドがあてられている．
+\footnote{ギリシャ文字オミクロンだけは小文字にも専用のコマンドはなく，アルファベット$o$と同じである．}
+だがそれだけではない．
+これらのギリシャ文字の大文字は，$\Gamma$や$\Delta$のように
+数式中だろうと立体で表記される．
+イタリック体で書きたければ，\verb|\varGamma|や\verb|\varDelta|
+のように先頭に\verb|var|を付ければよい．
+こうすると，$\varGamma$や$\varDelta$のように出力される．
+
+また，一部の小文字のギリシャ文字のコマンドの先頭に\verb|var|を付けると，
+ちょっと変わった文字が出力される．
+通常のギリシャ文字の小文字よりもこちらが使われることも多いので，
+合わせて頭に入れておきたい．
+
+表中のコマンドは紙面の都合上小文字のものしか載せていないが，
+ギリシャ文字の大文字を出力したければ，
+アルファベットと被っているものはそのアルファベットをそのまま打てばいいし，
+被っていないものは\verb|\Pi|や\verb|\Psi|のようにコマンドの先頭を大文字にすればよい．
+変体文字も\verb|\vartheta|や\verb|\varphi|のように
+対応する小文字のコマンドの先頭に\verb|var|を付けるだけである．
+
+\renewcommand{\arraystretch}{1}
+\index[widx]{ぎりしゃもじ@ギリシャ文字}
+\begin{longtable}[h]{|c|c|c|c|c|}
+\hline
+大文字 & 小文字 & 変体文字 & コマンド & 読み方 \\ \hline
+$A$ & $\alpha$ &  & \verb|\alpha| & アルファ \\ \hline
+$B$ & $\beta$ &  & \verb|\beta| & ベータ \\ \hline
+$\Gamma$ & $\gamma$ &  & \verb|\gamma| & ガンマ \\ \hline
+$\Delta$ & $\delta$ &  & \verb|\delta| & デルタ \\ \hline
+$E$ & $\epsilon$ & $\varepsilon$ & \verb|\epsilon| & イプシロン，エプシロン \\ \hline
+$Z$ & $\zeta$ &  & \verb|\zeta| & ゼータ \\ \hline
+$H$ & $\eta$ &  & \verb|\eta| & イータ，エータ \\ \hline
+$\Theta$ & $\theta$ & $\vartheta$ & \verb|\theta| & シータ，テータ \\ \hline
+$I$ & $\iota$ &  & \verb|iota| & イオタ \\ \hline
+$K$ & $\kappa$ &  & \verb|\kappa| & カッパ \\ \hline
+$\Lambda$ & $\lambda$ &  & \verb|\lambda| & ラムダ \\ \hline
+$M$ & $\mu$ &  & \verb|\mu| & ミュー \\ \hline
+$N$ & $\nu$ &  & \verb|\nu| & ニュー \\ \hline
+$\Xi$ & $\xi$ &  & \verb|\xi| & グザイ，クシー \\ \hline
+$O$ & $o$ &  & \verb|o| & オミクロン \\ \hline
+$\Pi$ & $\pi$ & $\varpi$ & \verb|\pi| & パイ \\ \hline
+$P$ & $\rho$ & $\varrho$ & \verb|\rho| & ロー \\ \hline
+$\Sigma$ & $\sigma$ & $\varsigma$ & \verb|\sigma| & シグマ \\ \hline
+$T$ & $\tau$ &  & \verb|\tau| & タウ \\ \hline
+$\Upsilon$ & $\upsilon$ &  & \verb|\upsilon| & ウプシロン，ユプシロン \\ \hline
+$\Phi$ & $\phi$ & $\varphi$ & \verb|\phi| & ファイ \\ \hline
+$X$ & $\chi$ &  & \verb|\chi| & カイ，キー \\ \hline
+$\Psi$ & $\psi$ &  & \verb|\psi| & プサイ \\ \hline
+$\Omega$ & $\omega$ &  & \verb|\omega| & オメガ \\ \hline
+\end{longtable}
+
+

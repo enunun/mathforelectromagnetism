@@ -1,0 +1,31 @@
+\begin{verbatim}
+\documentclass[a4paper,12pt]{jsarticle} % ドキュメントクラス
+% 「%」でコメントが入れられる %
+%%% ここからプリアンブル %%%
+\usepackage{amsmath,amssymb} % 数式用パッケージ
+%%% ここまでがプリアンブル %%%
+\begin{document} % 本文スタート
+数列$\{ a_n \}$を，漸化式
+\begin{align} % 式番号付きの別行立ての数式環境のスタート
+ \begin{aligned} % 複数行の式をひとまとめにして扱う
+  a_1 & = 1 \\ % \\は改行を表す
+  a _ {n+1} & = \sqrt{ a_n + 6} % \sqrtは平方根
+ \end{aligned}
+\end{align} % 数式環境終わり
+によって帰納的に定義する．
+
+% 段落が変わるのよ %
+
+このとき，
+\begin{align} 
+\forall \varepsilon >0 \, \exists N \in \mathbb{N} \, 
+\forall n \in \mathbb{N} 
+( n \geq N \rightarrow \lvert a_n -3 \rvert < \varepsilon )
+\end{align} 
+が成り立つので，この数列$\{ a_n \}$は3に収束する，つまり，
+\begin{align}
+\lim_{n \to \infty} a_n = 3
+\end{align}
+となる．
+\end{document}
+\end{verbatim}
